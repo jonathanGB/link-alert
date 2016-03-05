@@ -1,0 +1,17 @@
+{
+  "manifest_version": 2,
+
+  "name": "Link-Alert",
+  "description": "Alert of non-desired links in a web page with icons beside links",
+  "author": "Jonathan Guillotte-Blouin & Marc Turpin",
+  "version": "1.0",
+
+  "browser_action": {
+   "default_icon": "img/icon.png",
+   "default_popup": "popup.html"
+  },
+  "permissions": [
+   "activeTab", // access to current tab
+   "storage" // access/store user data 
+   ]
+}
