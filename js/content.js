@@ -1,32 +1,31 @@
-function add() {
-	alert('hello add');
-}
 
-function run() {
-	alert(sendAjaxRequest(""));
-}
 
-function view() {
-	alert('this view');
-}
 
-document.addEventListener('DOMContentLoaded', function() {
-  var lis = document.querySelectorAll('li');
+function checkAllLinks(){
+  var anchorTags = document.getElementsByTagName('a');
+  var i;
+  var links = [];
 
-  for (var i = 0; i < lis.length; i++) {
-  	lis[i].addEventListener('click', function() {
-  		window[this.id] === undefined ?
-        alert('not existing'):
-        window[this.id]();
-  	});
+for(i = 0; i < anchorTags.length; i++){
+  if (absoluteUrl(anchorTags[i].href)) {
+      links.push(anchorTags[i].href);
+    }
   }
-}, false);
+
+sendAjaxRequest(links);
+
+}
+
+
+function absoluteUrl(url){
+  // returns boolean indicating if its a valid url or not
+return /^https{0,1}:\/\/\S+$|^\/\/\S+$/.test(url);
+}
 
 
 function sendAjaxRequest(links){
   var jsonstring = JSON.stringify(links);
   var xhr = new XMLHttpRequest();
-  jsonstring = "penis";
   xhr.open("GET", "https://link-alert.herokuapp.com?list="+jsonstring, true);
 
 
