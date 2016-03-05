@@ -12,6 +12,9 @@
   },
   "permissions": [
    "activeTab", // access to current tab
-   "storage" // access/store user data 
+   "storage", // access/store user data 
+   "https://link-alert.herokuapp.com/"
    ]
+
+
 }
