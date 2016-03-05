@@ -1,5 +1,5 @@
 function add() {
-	alert('hello add');
+	alert('hello Jonathan');
 }
 
 function run() {
