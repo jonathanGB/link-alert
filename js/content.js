@@ -12,6 +12,7 @@ if(messageSender == "popup"){
   switch(messageCommand){
 
     case "run":
+      alert("running");
       checkAllLinks();
       break;
 
@@ -21,10 +22,34 @@ if(messageSender == "popup"){
       sendResponse('huehue');
       alert('finished add method');
       break;
+
+    case "view":
+      alert("viewinnng");
+      showAllBlacklist(sender);
+      alert("finished viewing");
+      break;
     }
   }
 
 });
+
+function showAllBlacklist(sender) {
+  var data = {
+    command: "view",
+    sender: "content",
+    list: []
+  };
+
+  debugger;
+  chrome.runtime.sendMessage(JSON.stringify(data), function(keys) {
+    console.log(chrome.runtime.lastError);
+    debugger;
+    var table = Object.keys(JSON.parse(keys));
+    console.log(table);
+  });
+
+  // redirect with table with images
+}
 
 
 function checkAllLinks(){
@@ -32,7 +57,7 @@ function checkAllLinks(){
   var i;
   var links = [];
   var anchorRefs = [];
-
+debugger;
 for(i = 0; i < anchorTags.length; i++){
   if (absoluteUrl(anchorTags[i].href)) {
       links.push(anchorTags[i].href);

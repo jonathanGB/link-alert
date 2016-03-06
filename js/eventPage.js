@@ -26,13 +26,18 @@ if(messageSender == "content"){
 		var pair = {};
 		pair[key] = 1;
 
-		chrome.storage.local.set(pair, function() {
+		chrome.storage.sync.set(pair, function() {
 			debugger;
-			chrome.storage.local.get(key, function(val) {
+			chrome.storage.sync.get(key, function(val) {
 				debugger;
 				console.log(val);
 				sendResponse(JSON.stringify({sucess: true}));
 			});
+		});
+	} else if (messageCommand === 'view') { 
+		chrome.storage.sync.get(null, function(items) {
+			debugger;
+		    sendResponse(JSON.stringify(items));
 		});
 	} else {
 		sendResponse(JSON.stringify({sucess: false}));
