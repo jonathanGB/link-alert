@@ -1,9 +1,28 @@
 function add() {
-	alert('hello add');
+  var data = {
+    command: "add",
+    sender: "popup",
+    list: []
+  };
+
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    debugger;
+    chrome.tabs.sendMessage(tabs[0].id, JSON.stringify(data), function(response) {
+      console.log(response);
+    });
+  });
+  // chrome.extension.sendMessage(JSON.stringify(data), function(ev) {
+  //   console.log(ev);
+  // });
 }
 
 function run() {
-	alert(sendAjaxRequest(""));
+  var data = {
+    command: "run",
+    sender: "popup",
+    list: []
+  };
+  chrome.runtime.sendMessage(JSON.stringify(data));
 }
 
 function view() {

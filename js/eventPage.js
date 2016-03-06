@@ -2,31 +2,43 @@
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 
-
-links = JSON.parse(message);
-var command = message.pop();
-
-switch(command){
-
-	case 'compare':
+var parsedMessage = JSON.parse(message);
+var messageSender = parsedMessage.sender;
+var messageCommand = parsedMessage.command;
+var messageList = parsedMessage.list;
+console.log(messageSender);
+if(messageSender == "content"){
+	if (messageCommand === 'compare') {
 		var matchedLinks = [];
-		for(var i = 0; i < links.length; i++){
-			if(StorageArea.get(links[i]) == 1){
+		for(var i = 0; i < messageList.length; i++){
+			if(StorageArea.get(messageList[i]) == 1){
 				matchedLinks.push(i);
 			} 
 		}
 		//*** IS THIS CORRECT WAY TO SEND RESPONSE BACK TO THE CALLBACK?
 		sendResponse(JSON.stringify(matchedLinks));
-		break;
-
-
-	case 'add':
+	} else if (messageCommand === 'add') {
 		//**** add link to database -> key = url, value = 1 *****//
 		// TEST TO SEE IF IT GETS ADDED PROPERLY
-		chrome.storage.local.set({message, 1})
-		break;
+		alert('finally got to DB');
+		debugger;
+		var key = messageList[0].toString();
+		var pair = {};
+		pair[key] = 1;
 
-	default:
-	// **** implement default value here or something
+		chrome.storage.local.set(pair, function() {
+			debugger;
+			chrome.storage.local.get(key, function(val) {
+				debugger;
+				console.log(val);
+				sendResponse(JSON.stringify({sucess: true}));
+			});
+		});
+	} else {
+		sendResponse(JSON.stringify({sucess: false}));
 	}
+} else if (messageSender == "popup"){
+	//
 }
+
+});

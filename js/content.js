@@ -1,4 +1,30 @@
 
+// ADD IN MESSAGES THE SENDER CONTEXT SO WE CAN AVOID RUNNING CODE FOR NOTHING AND CONFLICTS
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
+var parsedMessage = JSON.parse(message);
+var messageSender = parsedMessage.sender;
+var messageCommand = parsedMessage.command;
+var messageList = parsedMessage.list;
+
+if(messageSender == "popup"){
+
+  switch(messageCommand){
+
+    case "run":
+      checkAllLinks();
+      break;
+
+    case "add":
+      alert('accessed add command');
+      addLinkToDB(sender);
+      sendResponse('huehue');
+      alert('finished add method');
+      break;
+    }
+  }
+
+});
 
 
 function checkAllLinks(){
@@ -19,13 +45,12 @@ for(i = 0; i < anchorTags.length; i++){
 }
 
 
+// function checkOneLink(url){
 
-function checkOneLink(url){
-//******* figure out how to capture link with right click -> Make sure to store it as list before calling sendAjax *******//
+// //******* figure out how to capture link with right click -> Make sure to store it as list before calling sendAjax *******//
 
-
-sendAjaxRequest(url, anchorRef);
-}
+// sendAjaxRequest(url, anchorRef);
+// }
 
 
 
@@ -84,28 +109,43 @@ function colorBadLinks(links, anchorRefs){
 
 // Returns an index array of matching links in the DB -> to access matching links do for loop anchorRefs[indexArray[i]];
 function compareLinksWithDB(links){
-    links.push("compare");
-    chrome.runtime.sendMessage(JSON.stringify(links), function(matchedLinks){
+  var data = {
+    command: "compare",
+    sender: "content",
+    list: links
+  };
+
+    chrome.runtime.sendMessage(JSON.stringify(data), function(matchedLinks){
       return JSON.parse(matchedLinks);
     });
 }
 
-
-
-function addLinkToDB(link){
+function addLinkToDB(sender){
     //***** IMPLEMENT THIS ****//
     //select and right click options -> extract url
     //not sure about parameter for this
 
+    //**** ALSO FROM MENU ADDING LINKS THAT YOURE NOT CURRENTLY ON
+    debugger;
+    var url = window.location.href;
+
+    console.log('this'+url);
     //once extracted, do this:
   if(absoluteUrl(url)){
-    var validLink = [];
-    validLink.push(url);
-    validLink.push("add");
-    chrome.runtime.sendMessage(JSON.stringify(validLink), function(addResponse){
+    alert('absoluteUrl worked');
+    var data = {
+      command: "add",
+      sender: "content",
+      list: [url]
+    };
 
-      
-
+    chrome.runtime.sendMessage(JSON.stringify(data), function(addResponse){
+      debugger;
+      if((JSON.parse(addResponse)).sucess){
+        alert('Added website to blacklist');
+      } else {
+        alert('Could not add website to blacklist');
+      }
       });
 
     } 
