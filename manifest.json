@@ -10,10 +10,16 @@
    "default_icon": "img/icon.png",
    "default_popup": "popup.html"
   },
+
+  "background": {
+    "scripts": ["eventPage.js"],
+    "persistent": false
+    },
+
   "permissions": [
    "activeTab", // access to current tab
    "storage", // access/store user data 
-   "https://link-alert.herokuapp.com/"
+   "https://link-alert.herokuapp.com/" // server for redirect checking
    ]
 
 
