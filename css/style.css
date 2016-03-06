@@ -1,0 +1,40 @@
+body {
+	width: 300px;
+}
+
+h1 {
+	text-align: center;
+	padding-bottom: 3px;
+	border-bottom: 1px solid gray;
+	cursor: default;
+}
+
+ul {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+li {
+	cursor: pointer;
+	font-size: 18px;
+	list-style-type: none;
+	padding-bottom: 5px;
+	display: block;
+	width: 100%;
+	padding-left: 10px;
+}
+
+li:hover {
+	background: #eeeeee;
+}
+
+#default {
+	position: relative;
+	top: 2px;
+}
+
+label {
+	font-size: 14px;
+	font-style: italic;
+}
